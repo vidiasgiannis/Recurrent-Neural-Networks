@@ -149,7 +149,8 @@ class RNN(Model):
         
         no return values
         '''
-
+        ##########################
+        # --- your code here --- #
         for t in reversed(range(len(x))):
             # Compute output error
             d_one_hot = make_onehot(d[t], self.out_vocab_size)
@@ -164,7 +165,6 @@ class RNN(Model):
             # Compute one-hot encoding for input
             x_one_hot = make_onehot(x[t], self.vocab_size)
 
-            # Update deltaV and deltaU without using [:,]
             self.deltaV += np.outer(delta_in, x_one_hot)
             self.deltaU += np.outer(delta_in, s[t - 1])
 
@@ -181,7 +181,7 @@ class RNN(Model):
                 # Update deltaV and deltaU for previous time steps
                 self.deltaV += np.outer(delta_in, x_prev_one_hot)
                 self.deltaU += np.outer(delta_in, s[t - back_step - 1])
-
+        ##########################
 
 
 
