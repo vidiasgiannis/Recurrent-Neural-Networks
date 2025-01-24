@@ -151,10 +151,38 @@ class RNN(Model):
         '''
 
         for t in reversed(range(len(x))):
-            pass
-            ##########################
-            # --- your code here --- #
-            ##########################
+            # Compute output error
+            d_one_hot = make_onehot(d[t], self.out_vocab_size)
+            delta_out = d_one_hot - y[t]
+
+            # Update deltaW
+            self.deltaW += np.outer(delta_out, s[t])
+
+            # Compute hidden state error
+            delta_in = np.dot(self.W.T, delta_out) * s[t] * (1 - s[t])
+
+            # Compute one-hot encoding for input
+            x_one_hot = make_onehot(x[t], self.vocab_size)
+
+            # Update deltaV and deltaU without using [:,]
+            self.deltaV += np.outer(delta_in, x_one_hot)
+            self.deltaU += np.outer(delta_in, s[t - 1])
+
+            # Backpropagate error further back in time
+            for back_step in range(1, steps + 1):
+                if t - back_step < 0:
+                    break
+
+                delta_in = np.dot(self.U.T, delta_in) * s[t - back_step] * (1 - s[t - back_step])
+
+                # Compute one-hot encoding for the previous input
+                x_prev_one_hot = make_onehot(x[t - back_step], self.vocab_size)
+
+                # Update deltaV and deltaU for previous time steps
+                self.deltaV += np.outer(delta_in, x_prev_one_hot)
+                self.deltaU += np.outer(delta_in, s[t - back_step - 1])
+
+
 
 
     def acc_deltas_bptt_np(self, x, d, y, s, steps):

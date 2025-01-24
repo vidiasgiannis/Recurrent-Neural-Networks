@@ -130,27 +130,27 @@ if not np.isclose(deltaW_1_exp, r.deltaW).all():
 else:
 	print("deltaW passed")
 
-# print("\n### BPTT with 3 steps")
-# r.deltaU.fill(0)
-# r.deltaV.fill(0)
-# r.deltaW.fill(0)
+print("\n### BPTT with 3 steps")
+r.deltaU.fill(0)
+r.deltaV.fill(0)
+r.deltaW.fill(0)
 
-# r.acc_deltas_bptt(x,d,y,s,3)
-# if not np.isclose(deltaU_3_exp, r.deltaU).all():
-# 	print("\ndeltaU expected\n{0}".format(deltaU_3_exp))
-# 	print("deltaU received\n{0}".format(r.deltaU))
-# else:
-# 	print("deltaU passed")
-# if not np.isclose(deltaV_3_exp, r.deltaV).all():
-# 	print("\ndeltaV expected\n{0}".format(deltaV_3_exp))
-# 	print("deltaV received\n{0}".format(r.deltaV))
-# else:
-# 	print("deltaV passed")
-# if not np.isclose(deltaW_3_exp, r.deltaW).all():
-# 	print("\ndeltaW expected\n{0}".format(deltaW_3_exp))
-# 	print("deltaW received\n{0}".format(r.deltaW))
-# else:
-# 	print("deltaW passed")
+r.acc_deltas_bptt(x,d,y,s,3)
+if not np.isclose(deltaU_3_exp, r.deltaU).all():
+	print("\ndeltaU expected\n{0}".format(deltaU_3_exp))
+	print("deltaU received\n{0}".format(r.deltaU))
+else:
+	print("deltaU passed")
+if not np.isclose(deltaV_3_exp, r.deltaV).all():
+	print("\ndeltaV expected\n{0}".format(deltaV_3_exp))
+	print("deltaV received\n{0}".format(r.deltaV))
+else:
+	print("deltaV passed")
+if not np.isclose(deltaW_3_exp, r.deltaW).all():
+	print("\ndeltaW expected\n{0}".format(deltaW_3_exp))
+	print("deltaW received\n{0}".format(r.deltaW))
+else:
+	print("deltaW passed")
 
 
 # # BINARY PREDICTION TEST
