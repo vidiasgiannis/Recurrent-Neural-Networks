@@ -448,8 +448,8 @@ if __name__ == "__main__":
         ##########################
         # --- your code here --- #
         rnn_model = RNN(vocab_size,hdim,vocab_size)
-        
-        run_loss = rnn_model.train_np(X_train, D_train, X_dev, D_dev, 
+        r = Runner(rnn_model)
+        run_loss = r.train_np(X_train, D_train, X_dev, D_dev, 
                            back_steps=lookback, learning_rate=lr, epochs=1)
         ##########################
 
