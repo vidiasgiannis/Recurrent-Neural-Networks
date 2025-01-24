@@ -112,23 +112,23 @@ else:
 	print("mean loss passed")
 
 
-# print("\n### standard BP")
-# r.acc_deltas(x,d,y,s)
-# if not np.isclose(deltaU_1_exp, r.deltaU).all():
-# 	print("\ndeltaU expected\n{0}".format(deltaU_1_exp))
-# 	print("deltaU received\n{0}".format(r.deltaU))
-# else:
-# 	print("deltaU passed")
-# if not np.isclose(deltaV_1_exp, r.deltaV).all():
-# 	print("\ndeltaV expected\n{0}".format(deltaV_1_exp))
-# 	print("deltaV received\n{0}".format(r.deltaV))
-# else:
-# 	print("deltaV passed")
-# if not np.isclose(deltaW_1_exp, r.deltaW).all():
-# 	print("\ndeltaW expected\n{0}".format(deltaW_1_exp))
-# 	print("deltaW received\n{0}".format(r.deltaW))
-# else:
-# 	print("deltaW passed")
+print("\n### standard BP")
+r.acc_deltas(x,d,y,s)
+if not np.isclose(deltaU_1_exp, r.deltaU).all():
+	print("\ndeltaU expected\n{0}".format(deltaU_1_exp))
+	print("deltaU received\n{0}".format(r.deltaU))
+else:
+	print("deltaU passed")
+if not np.isclose(deltaV_1_exp, r.deltaV).all():
+	print("\ndeltaV expected\n{0}".format(deltaV_1_exp))
+	print("deltaV received\n{0}".format(r.deltaV))
+else:
+	print("deltaV passed")
+if not np.isclose(deltaW_1_exp, r.deltaW).all():
+	print("\ndeltaW expected\n{0}".format(deltaW_1_exp))
+	print("deltaW received\n{0}".format(r.deltaW))
+else:
+	print("deltaW passed")
 
 # print("\n### BPTT with 3 steps")
 # r.deltaU.fill(0)

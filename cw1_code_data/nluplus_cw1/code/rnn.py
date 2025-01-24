@@ -89,13 +89,25 @@ class RNN(Model):
             should be part of the return value of predict(x)
         
         no return values
-        '''
-
+        ''' 
+        ##########################
+        # --- your code here --- #
         for t in reversed(range(len(x))):
-            pass
-            ##########################
-            # --- your code here --- #
-            ##########################
+            # d -> one_hot_encoding
+            d_one_hot = make_onehot(d[t],self.vocab_size)
+            delta_out = d_one_hot - y[t]
+            self.deltaW = self.deltaW + np.outer(delta_out,s[t])  
+
+
+            derivative_net_in = s[t] * (1 - s[t])
+            delta_net_in = np.dot(self.W.T,delta_out) * derivative_net_in
+
+            # x -> one_hot encoding 
+            x_one_hot = make_onehot(x[t],self.vocab_size)
+            self.deltaV = self.deltaV + np.outer(delta_net_in,x_one_hot)
+
+            self.deltaU = self.deltaU + np.outer(delta_net_in,s[t-1])
+        ##########################
 
     def acc_deltas_np(self, x, d, y, s):
         '''
