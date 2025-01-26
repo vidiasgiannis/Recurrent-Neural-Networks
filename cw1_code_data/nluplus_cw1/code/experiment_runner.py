@@ -3,9 +3,9 @@ import itertools
 import subprocess
 
 # Define the parameter values
-learning_rates = [0.5, 0.1, 0.05]
-hdims = [25, 50]
-lookbacks = [0, 2, 5]
+learning_rates = [0.5, 0.1, 0.05, 1]
+hdims = [25, 50, 100]
+lookbacks = [0, 2, 5, 7, 10]
 
 data_dir = "/Users/radhikasatish/nlu_cw1/NLU-Coursework-1-Recurrent-Neural-Networks/cw1_code_data/nluplus_cw1/data"  # Replace with your actual data directory
 runner_path = "/Users/radhikasatish/nlu_cw1/NLU-Coursework-1-Recurrent-Neural-Networks/cw1_code_data/nluplus_cw1/code/runner.py"
