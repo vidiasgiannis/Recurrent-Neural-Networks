@@ -130,6 +130,17 @@ class RNN(Model):
 
         ##########################
         # --- your code here --- #
+        t = len(x) - 1
+        d_one_hot = make_onehot(d[0], self.vocab_size)
+        x_one_hot = make_onehot(x[t], self.vocab_size)
+		
+        delta_out = d_one_hot - y[t]
+        derivative_net_in = s[t] * (1 - s[t])
+        delta_net_in = np.dot(self.W.T,delta_out) * derivative_net_in
+
+        self.deltaW += np.outer(delta_out, s[t])
+        self.deltaV += np.outer(delta_net_in, x_one_hot)
+        self.deltaU += np.outer(delta_net_in, s[t - 1])
         ##########################
         
     def acc_deltas_bptt(self, x, d, y, s, steps):
