@@ -155,13 +155,13 @@ else:
 
 # # BINARY PREDICTION TEST
 
-# print("\n### computing binary prediction loss")
-# np_loss = p.compute_loss_np(x,d_np)
-# if not np.isclose(np_loss_expected, np_loss, rtol=1e-08, atol=1e-08):
-# 	print("np loss expected: {0}".format(np_loss_expected))
-# 	print("np loss received: {0}".format(np_loss))
-# else:
-# 	print("np loss passed")
+print("\n### computing binary prediction loss")
+np_loss = p.compute_loss_np(x,d_np)
+if not np.isclose(np_loss_expected, np_loss, rtol=1e-08, atol=1e-08):
+	print("np loss expected: {0}".format(np_loss_expected))
+	print("np loss received: {0}".format(np_loss))
+else:
+	print("np loss passed")
 
 print("\n### binary prediction BP")
 r.deltaU.fill(0)
@@ -186,36 +186,36 @@ else:
 	print("deltaW passed")
 
 
-# print("\n### binary prediction BPTT with 3 steps")
-# r.deltaU.fill(0)
-# r.deltaV.fill(0)
-# r.deltaW.fill(0)
+print("\n### binary prediction BPTT with 3 steps")
+r.deltaU.fill(0)
+r.deltaV.fill(0)
+r.deltaW.fill(0)
 
-# r.acc_deltas_bptt_np(x,d_np,y,s,3)
-# if not np.isclose(deltaU_3_exp_np, r.deltaU).all():
-# 	print("\ndeltaU expected\n{0}".format(deltaU_3_exp_np))
-# 	print("deltaU received\n{0}".format(r.deltaU))
-# else:
-# 	print("deltaU passed")
-# if not np.isclose(deltaV_3_exp_np, r.deltaV).all():
-# 	print("\ndeltaV expected\n{0}".format(deltaV_3_exp_np))
-# 	print("deltaV received\n{0}".format(r.deltaV))
-# else:
-# 	print("deltaV passed")
-# if not np.isclose(deltaW_3_exp_np, r.deltaW).all():
-# 	print("\ndeltaW expected\n{0}".format(deltaW_3_exp_np))
-# 	print("deltaW received\n{0}".format(r.deltaW))
-# else:
-# 	print("deltaW passed")
+r.acc_deltas_bptt_np(x,d_np,y,s,3)
+if not np.isclose(deltaU_3_exp_np, r.deltaU).all():
+	print("\ndeltaU expected\n{0}".format(deltaU_3_exp_np))
+	print("deltaU received\n{0}".format(r.deltaU))
+else:
+	print("deltaU passed")
+if not np.isclose(deltaV_3_exp_np, r.deltaV).all():
+	print("\ndeltaV expected\n{0}".format(deltaV_3_exp_np))
+	print("deltaV received\n{0}".format(r.deltaV))
+else:
+	print("deltaV passed")
+if not np.isclose(deltaW_3_exp_np, r.deltaW).all():
+	print("\ndeltaW expected\n{0}".format(deltaW_3_exp_np))
+	print("deltaW received\n{0}".format(r.deltaW))
+else:
+	print("deltaW passed")
 
 
-# print("\n### compute accuracy for binary prediction")
-# acc = p.compute_acc_np(x, d_np)
-# if acc != acc_expected:
-# 	print("acc expected\n{0}".format(acc_expected))
-# 	print("acc received\n{0}".format(acc))
-# else:
-# 	print("acc passed")
+print("\n### compute accuracy for binary prediction")
+acc = p.compute_acc_np(x, d_np)
+if acc != acc_expected:
+	print("acc expected\n{0}".format(acc_expected))
+	print("acc received\n{0}".format(acc))
+else:
+	print("acc passed")
 
 # # GRU Test
 

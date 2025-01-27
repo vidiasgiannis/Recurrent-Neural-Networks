@@ -133,13 +133,18 @@ class RNN(Model):
         t = len(x) - 1
         d_one_hot = make_onehot(d[0], self.vocab_size)
         x_one_hot = make_onehot(x[t], self.vocab_size)
-		
-        delta_out = d_one_hot - y[t]
-        derivative_net_in = s[t] * (1 - s[t])
-        delta_net_in = np.dot(self.W.T,delta_out) * derivative_net_in
 
+		# the error at the output layer
+        delta_out = d_one_hot - y[t]
+        # computes the sigmoid derivative for backpropagation
+        derivative_net_in = s[t] * (1 - s[t])
+        # backpropagate the error to the hidden layer
+        delta_net_in = np.dot(self.W.T,delta_out) * derivative_net_in
+        #update output weights
         self.deltaW += np.outer(delta_out, s[t])
+        #update input weights
         self.deltaV += np.outer(delta_net_in, x_one_hot)
+        #update recurrent weights
         self.deltaU += np.outer(delta_net_in, s[t - 1])
         ##########################
         
@@ -166,6 +171,7 @@ class RNN(Model):
             # Compute output error
             d_one_hot = make_onehot(d[t], self.out_vocab_size)
             delta_out = d_one_hot - y[t]
+            
 
             # Update deltaW
             self.deltaW += np.outer(delta_out, s[t])
@@ -181,17 +187,13 @@ class RNN(Model):
 
             # Backpropagate error further back in time
             for back_step in range(1, steps + 1):
-                if t - back_step < 0:
-                    break
+                if t >= back_step:
+                    x_one_hot = make_onehot(x[t - back_step], self.vocab_size)
 
-                delta_in = np.dot(self.U.T, delta_in) * s[t - back_step] * (1 - s[t - back_step])
+                    delta_in = np.dot(self.U.T, delta_in) * s[t - back_step] * (1 - s[t - back_step])
 
-                # Compute one-hot encoding for the previous input
-                x_prev_one_hot = make_onehot(x[t - back_step], self.vocab_size)
-
-                # Update deltaV and deltaU for previous time steps
-                self.deltaV += np.outer(delta_in, x_prev_one_hot)
-                self.deltaU += np.outer(delta_in, s[t - back_step - 1])
+                    self.deltaV += np.outer(delta_in, x_one_hot)
+                    self.deltaU += np.outer(delta_in, s[t - back_step - 1])
         ##########################
 
 
@@ -218,4 +220,24 @@ class RNN(Model):
 
         ##########################
         # --- your code here --- #
+        t = len(x) - 1
+        d_one_hot = make_onehot(d[0], self.vocab_size)
+        x_one_hot = make_onehot(x[t], self.vocab_size)
+
+        delta_out = d_one_hot - y[t]
+        delta_in = np.dot(self.W.T, delta_out) * s[t] * (1 - s[t])
+
+        self.deltaW += np.outer(delta_out, s[t])
+        self.deltaV += np.outer(delta_in, x_one_hot)
+        self.deltaU += np.outer(delta_in, s[t - 1])
+
+        for back_step in range(1, steps + 1):
+            if t >= back_step:
+                x_one_hot = make_onehot(x[t - back_step], self.vocab_size)
+
+                delta_in = np.dot(self.U.T, delta_in) * s[t - back_step] * (1 - s[t - back_step])
+
+                self.deltaV += np.outer(delta_in, x_one_hot)
+                self.deltaU += np.outer(delta_in, s[t - back_step - 1])
+
         ##########################
