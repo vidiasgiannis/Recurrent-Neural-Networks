@@ -91,24 +91,25 @@ class RNN(Model):
         no return values
         ''' 
         ##########################
-        # --- your code here --- #
         for t in reversed(range(len(x))):
-            # d -> one_hot_encoding
-            d_one_hot = make_onehot(d[t],self.vocab_size)
+            # Compute output error
+            d_one_hot = make_onehot(d[t], self.out_vocab_size)
             delta_out = d_one_hot - y[t]
-            self.deltaW = self.deltaW + np.outer(delta_out,s[t])  
 
+            # Update deltaW
+            self.deltaW += np.outer(delta_out, s[t])
 
-            derivative_net_in = s[t] * (1 - s[t])
-            delta_net_in = np.dot(self.W.T,delta_out) * derivative_net_in
+            # Compute hidden state error
+            delta_in = np.dot(self.W.T, delta_out) * s[t] * (1 - s[t])
 
-            # x -> one_hot encoding 
-            x_one_hot = make_onehot(x[t],self.vocab_size)
-            self.deltaV = self.deltaV + np.outer(delta_net_in,x_one_hot)
+            # Compute one-hot encoding for input
+            x_one_hot = make_onehot(x[t], self.vocab_size)
 
-            self.deltaU = self.deltaU + np.outer(delta_net_in,s[t-1])
+            self.deltaV += np.outer(delta_in, x_one_hot)
+            self.deltaU += np.outer(delta_in, s[t - 1])
         ##########################
 
+ 
     def acc_deltas_np(self, x, d, y, s):
         '''
         accumulate updates for V, W, U

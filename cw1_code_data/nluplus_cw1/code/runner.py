@@ -113,8 +113,8 @@ class Runner(object):
         for i in range(len(X)):
             mean_loss =  mean_loss + (self.compute_loss(X[i], D[i]))
             count = count + len(X[i])
-        print(mean_loss)
-        print(mean_loss/count)
+        # print(mean_loss)
+        # print(mean_loss/count)
         ##########################
 
         return mean_loss/count
@@ -454,9 +454,12 @@ if __name__ == "__main__":
         r = Runner(rnn_model)
         losses = r.train(X_train, D_train, X_dev, D_dev, 
                            back_steps=lookback, learning_rate=lr, epochs=10)
-        ##########################
+        rnn_model.save_params 
 
-        run_loss = -1
+        mean_loss = r.compute_mean_loss(X_dev, D_dev)
+        print("Mean loss computed: %.03f", mean_loss)
+        ##########################
+        run_loss = losses
         print("Run loss: %.03f" % np.exp(run_loss))
 
     if mode == "train-np-rnn":
