@@ -68,6 +68,14 @@ class Runner(object):
         '''
 
         loss = 0.
+        d_one_hot = make_onehot(d[0], self.model.vocab_size)
+        y,s = self.model.predict(x)
+        pred_log = np.log(y[-1])
+        loss -= np.dot(d_one_hot,pred_log.T)
+        # for i, index in enumerate(d):
+        #     d_one_hot_matrix[i, index] = 1
+        #     pred_log = np.log(y[i])
+        #     loss -= np.dot(d_one_hot_matrix[i],pred_log.T)
 
         ##########################
         # --- your code here --- #

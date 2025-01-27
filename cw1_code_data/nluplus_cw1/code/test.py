@@ -155,13 +155,13 @@ else:
 
 # # BINARY PREDICTION TEST
 
-# print("\n### computing binary prediction loss")
-# np_loss = p.compute_loss_np(x,d_np)
-# if not np.isclose(np_loss_expected, np_loss, rtol=1e-08, atol=1e-08):
-# 	print("np loss expected: {0}".format(np_loss_expected))
-# 	print("np loss received: {0}".format(np_loss))
-# else:
-# 	print("np loss passed")
+print("\n### computing binary prediction loss")
+np_loss = p.compute_loss_np(x,d_np)
+if not np.isclose(np_loss_expected, np_loss, rtol=1e-08, atol=1e-08):
+	print("np loss expected: {0}".format(np_loss_expected))
+	print("np loss received: {0}".format(np_loss))
+else:
+	print("np loss passed")
 
 print("\n### binary prediction BP")
 r.deltaU.fill(0)
