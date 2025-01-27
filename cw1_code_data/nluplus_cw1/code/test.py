@@ -209,13 +209,13 @@ else:
 # 	print("deltaW passed")
 
 
-# print("\n### compute accuracy for binary prediction")
-# acc = p.compute_acc_np(x, d_np)
-# if acc != acc_expected:
-# 	print("acc expected\n{0}".format(acc_expected))
-# 	print("acc received\n{0}".format(acc))
-# else:
-# 	print("acc passed")
+print("\n### compute accuracy for binary prediction")
+acc = p.compute_acc_np(x, d_np)
+if acc != acc_expected:
+	print("acc expected\n{0}".format(acc_expected))
+	print("acc received\n{0}".format(acc))
+else:
+	print("acc passed")
 
 # # GRU Test
 

@@ -68,17 +68,12 @@ class Runner(object):
         '''
 
         loss = 0.
+        ##########################
+        # --- your code here --- #
         d_one_hot = make_onehot(d[0], self.model.vocab_size)
         y,s = self.model.predict(x)
         pred_log = np.log(y[-1])
         loss -= np.dot(d_one_hot,pred_log.T)
-        # for i, index in enumerate(d):
-        #     d_one_hot_matrix[i, index] = 1
-        #     pred_log = np.log(y[i])
-        #     loss -= np.dot(d_one_hot_matrix[i],pred_log.T)
-
-        ##########################
-        # --- your code here --- #
         ##########################
 
         return loss
@@ -96,9 +91,9 @@ class Runner(object):
 
         ##########################
         # --- your code here --- #
+        y,s = self.model.predict(x)
+        return 1 if np.argmax(y[-1]) == d[0] else 0
         ##########################
-
-        return 0
 
     def compute_mean_loss(self, X, D):
         '''
