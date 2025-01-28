@@ -397,7 +397,7 @@ class Runner(object):
         print("setting U, V, W to matrices from best epoch")
         self.model.set_best_params()
 
-        return best_loss
+        return best_loss, acc
 
 if __name__ == "__main__":
 
@@ -504,10 +504,11 @@ if __name__ == "__main__":
         D_dev = D_dev[:dev_size]
 
         ##########################
-        # --- your code here --- #
+        rnn_model = RNN(vocab_size,hdim,vocab_size)
+        r = Runner(rnn_model)
+        losses, acc = r.train_np(X_train, D_train, X_dev, D_dev, 
+                           back_steps=lookback, learning_rate=lr, epochs=10)
         ##########################
-
-        acc = 0.
 
         print("Accuracy: %.03f" % acc)
 
@@ -553,9 +554,9 @@ if __name__ == "__main__":
         D_dev = D_dev[:dev_size]
 
         ##########################
-        # --- your code here --- #
+        rnn_model = GRU(vocab_size,hdim,vocab_size)
+        r = Runner(rnn_model)
+        losses, acc = r.train_np(X_train, D_train, X_dev, D_dev, 
+                           back_steps=lookback, learning_rate=lr, epochs=10)
         ##########################
-
-        acc = 0.
-
         print("Accuracy: %.03f" % acc)  
