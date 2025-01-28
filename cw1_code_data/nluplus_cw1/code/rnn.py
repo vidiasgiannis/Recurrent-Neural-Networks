@@ -224,12 +224,17 @@ class RNN(Model):
         t = len(x) - 1
         d_one_hot = make_onehot(d[0], self.vocab_size)
         x_one_hot = make_onehot(x[t], self.vocab_size)
-
+        #error at the output layer
         delta_out = d_one_hot - y[t]
+        # compute the gradient  of the sigmoid function at the hidden layer
+        #backpropagate the error at the hidden layer through the weight vector W
+        #the error signal to the hidden layer
         delta_in = np.dot(self.W.T, delta_out) * s[t] * (1 - s[t])
 
         self.deltaW += np.outer(delta_out, s[t])
+        # accumulates the gradient for V, he input to hidden weight matrix
         self.deltaV += np.outer(delta_in, x_one_hot)
+        #accumulated the gradient for U, the recurrent weight matrix
         self.deltaU += np.outer(delta_in, s[t - 1])
 
         for back_step in range(1, steps + 1):

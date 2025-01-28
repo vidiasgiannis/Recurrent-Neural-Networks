@@ -52,6 +52,13 @@ class GRU(GRUAbstract):
 
         ##########################
         # --- your code here --- #
+        x_one_hot = make_onehot(x, self.vocab_size)
+        r = sigmoid(self.Vr.dot(x_one_hot) + self.Ur.dot(s_previous))
+        z = sigmoid(self.Vz.dot(x_one_hot )+ self.Uz.dot(s_previous))
+        h = np.tanh(self.Vh.dot(x_one_hot) + self.Uh.dot(r*s_previous))
+        s = (z * s_previous) + ((1-z)*h)
+        net_out = self.W.dot(s)
+        y = softmax(net_out)
         ##########################
 
         return y, s, h, z, r
@@ -77,8 +84,14 @@ class GRU(GRUAbstract):
 
         ##########################
         # --- your code here --- #
+        t = len(x) - 1
+        d_one_hot = make_onehot(d[0], self.vocab_size)
+        x_one_hot = make_onehot(x[t], self.vocab_size)
+
+		# the error at the output layer
+        delta_out = d_one_hot - y[t]
         ##########################
-        self.backward(x, t, s, delta_output)
+        self.backward(x_one_hot, t, s, delta_out)
 
     def acc_deltas_bptt_np(self, x, d, y, s, steps):
         '''
@@ -101,6 +114,12 @@ class GRU(GRUAbstract):
 
         ##########################
         # --- your code here --- #
+        t = len(x) - 1
+        d_one_hot = make_onehot(d[0], self.vocab_size)
+		# the error at the output layer
+        delta_out = d_one_hot - y[t]
+        ##########################
+        self.backward(x, t, s, delta_out,steps)
         ##########################
 
-        self.backward(x, t, s, delta_output, steps)
+        # self.backward(x, t, s, delta_output, steps)
