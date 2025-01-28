@@ -91,6 +91,7 @@ class GRU(GRUAbstract):
 		# the error at the output layer
         delta_out = d_one_hot - y[t]
         ##########################
+
         self.backward(x_one_hot, t, s, delta_out)
 
     def acc_deltas_bptt_np(self, x, d, y, s, steps):
@@ -120,6 +121,5 @@ class GRU(GRUAbstract):
         delta_out = d_one_hot - y[t]
         ##########################
         self.backward(x, t, s, delta_out,steps)
-        ##########################
 
-        # self.backward(x, t, s, delta_output, steps)
+   
