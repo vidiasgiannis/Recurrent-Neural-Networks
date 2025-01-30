@@ -12,7 +12,7 @@ def grad(x):
 
 def make_onehot(i, n):
 	y = np.zeros(n)
-	y[i] = 1
+	y[int(i)] = 1
 	return y
 
 

@@ -70,7 +70,7 @@ class Runner(object):
         loss = 0.
         ##########################
         # --- your code here --- #
-        d_one_hot = make_onehot(d[0], self.model.vocab_size)
+        d_one_hot = make_onehot(d[0], self.model.out_vocab_size)
         y,s = self.model.predict(x)
         pred_log = np.log(y[-1])
         loss -= np.dot(d_one_hot,pred_log.T)
@@ -467,7 +467,7 @@ if __name__ == "__main__":
         starter code for parameter estimation.
         change this to different values, or use it to get you started with your own testing class
         '''
-        train_size = 10000
+        train_size = 2000
         dev_size = 1000
         vocab_size = 2000
 
@@ -504,7 +504,7 @@ if __name__ == "__main__":
         D_dev = D_dev[:dev_size]
 
         ##########################
-        rnn_model = RNN(vocab_size,hdim,vocab_size)
+        rnn_model = RNN(vocab_size,hdim,2)
         r = Runner(rnn_model)
         losses, acc = r.train_np(X_train, D_train, X_dev, D_dev, 
                            back_steps=lookback, learning_rate=lr, epochs=10)
@@ -517,7 +517,7 @@ if __name__ == "__main__":
         starter code for parameter estimation.
         change this to different values, or use it to get you started with your own testing class
         '''
-        train_size = 10000
+        train_size = 2000
         dev_size = 1000
         vocab_size = 2000
 
@@ -554,7 +554,7 @@ if __name__ == "__main__":
         D_dev = D_dev[:dev_size]
 
         ##########################
-        rnn_model = GRU(vocab_size,hdim,vocab_size)
+        rnn_model = GRU(vocab_size,hdim,2)
         r = Runner(rnn_model)
         losses, acc = r.train_np(X_train, D_train, X_dev, D_dev, 
                            back_steps=lookback, learning_rate=lr, epochs=10)

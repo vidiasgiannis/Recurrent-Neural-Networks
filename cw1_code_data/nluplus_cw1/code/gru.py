@@ -85,7 +85,7 @@ class GRU(GRUAbstract):
         ##########################
         # --- your code here --- #
         t = len(x) - 1
-        d_one_hot = make_onehot(d[0], self.vocab_size)
+        d_one_hot = make_onehot(d[0], self.out_vocab_size)
         x_one_hot = make_onehot(x[t], self.vocab_size)
 
 		# the error at the output layer
@@ -116,7 +116,7 @@ class GRU(GRUAbstract):
         ##########################
         # --- your code here --- #
         t = len(x) - 1
-        d_one_hot = make_onehot(d[0], self.vocab_size)
+        d_one_hot = make_onehot(d[0], self.out_vocab_size)
 		# the error at the output layer
         delta_out = d_one_hot - y[t]
         ##########################
