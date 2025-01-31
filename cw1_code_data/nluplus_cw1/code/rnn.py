@@ -127,7 +127,6 @@ class RNN(Model):
         
         no return values
         '''
-        pass
 
         ##########################
         # --- your code here --- #
@@ -217,7 +216,7 @@ class RNN(Model):
         
         no return values
         '''
-        pass
+
 
         ##########################
         # --- your code here --- #

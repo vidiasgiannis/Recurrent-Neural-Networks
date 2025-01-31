@@ -73,6 +73,7 @@ class Runner(object):
         d_one_hot = make_onehot(d[0], self.model.out_vocab_size)
         y,s = self.model.predict(x)
         pred_log = np.log(y[-1])
+        print(pred_log)
         loss -= np.dot(d_one_hot,pred_log.T)
         ##########################
 
