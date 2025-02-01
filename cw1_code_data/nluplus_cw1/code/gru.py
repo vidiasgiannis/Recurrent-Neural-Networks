@@ -53,11 +53,11 @@ class GRU(GRUAbstract):
         ##########################
         # --- your code here --- #
         x_one_hot = make_onehot(x, self.vocab_size)
-        r = sigmoid(self.Vr.dot(x_one_hot) + self.Ur.dot(s_previous))
-        z = sigmoid(self.Vz.dot(x_one_hot )+ self.Uz.dot(s_previous))
-        h = np.tanh(self.Vh.dot(x_one_hot) + self.Uh.dot(r*s_previous))
-        s = (z * s_previous) + ((1-z)*h)
-        net_out = self.W.dot(s)
+        r = sigmoid(np.dot(self.Vr, x_one_hot) + np.dot(self.Ur, s_previous))
+        z = sigmoid(np.dot(self.Vz, x_one_hot)+ np.dot(self.Uz, s_previous))
+        h = np.tanh(np.dot(self.Vh, x_one_hot) + np.dot(self.Uh,  (np.multiply(r,s_previous))))
+        s = np.multiply(z , s_previous) + np.multiply((1-z),h)
+        net_out = np.dot(self.W, s)
         y = softmax(net_out)
         ##########################
 
