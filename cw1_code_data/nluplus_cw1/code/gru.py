@@ -86,13 +86,12 @@ class GRU(GRUAbstract):
         # --- your code here --- #
         t = len(x) - 1
         d_one_hot = make_onehot(d[0], self.out_vocab_size)
-        x_one_hot = make_onehot(x[t], self.vocab_size)
 
 		# the error at the output layer
         delta_out = d_one_hot - y[t]
         ##########################
 
-        self.backward(x_one_hot, t, s, delta_out)
+        self.backward(x, t, s, delta_out)
 
     def acc_deltas_bptt_np(self, x, d, y, s, steps):
         '''
