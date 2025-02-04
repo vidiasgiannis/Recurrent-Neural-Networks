@@ -8,12 +8,12 @@ def split_dependencies(file_path):
     df['dependency_distance'] = abs(df['verb_idx'].astype(int) - df['subj_idx'].astype(int))
 
     # Define short and long-range dependencies
-    short_dep = df[df['dependency_distance'].isin([1, 2, 3])]
-    long_dep = df[df['dependency_distance'] > 3]
+    short_dep = df[df['dependency_distance'] < 7]
+    long_dep = df[df['dependency_distance'] >= 7]
 
     # Define output filenames
-    short_dep_file = file_path.replace(".txt", "_short.txt")
-    long_dep_file = file_path.replace(".txt", "_long.txt")
+    short_dep_file = file_path.replace(".txt", "_7_short.txt")
+    long_dep_file = file_path.replace(".txt", "_7_long.txt")
 
     # Save to separate text files keeping the original format
     short_dep.to_csv(short_dep_file, sep='\t', index=False, header=False, mode='w')
@@ -23,5 +23,6 @@ def split_dependencies(file_path):
     print(f"Long-range dependencies saved to {long_dep_file}")
 
 # Example usage
-file_path = "/home/gvidias/nlu_cw1/cw1_code_data/nluplus_cw1/data/wiki-test.txt"
+file_path = "/home/gvidias/nlu_cw1/cw1_code_data/nluplus_cw1/data/wiki-dev.txt"
 split_dependencies(file_path)
+

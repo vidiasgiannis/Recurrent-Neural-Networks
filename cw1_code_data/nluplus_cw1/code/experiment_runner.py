@@ -4,8 +4,8 @@ import subprocess
 
 # Define the parameter values
 learning_rates = [0.5]
-hdims = [50]
-lookbacks = [2, 5, 7]
+hdims = [100]
+lookbacks = [0, 2, 5, 7]
 
 data_dir = "/home/gvidias/nlu_cw1/cw1_code_data/nluplus_cw1/data"  # Replace with your actual data directory
 runner_path = "/home/gvidias/nlu_cw1/cw1_code_data/nluplus_cw1/code/runner.py"
@@ -13,7 +13,7 @@ runner_path = "/home/gvidias/nlu_cw1/cw1_code_data/nluplus_cw1/code/runner.py"
 parameter_combinations = list(itertools.product(hdims, lookbacks, learning_rates))
 
 # Directory to store the output logs
-output_dir = "experiment_outputs_gru_short_depndencies"
+output_dir = "experiment_outputs_gru_long_dependencies_training_size_full_100_dims"
 os.makedirs(output_dir, exist_ok=True)
 
 # Store subprocesses
