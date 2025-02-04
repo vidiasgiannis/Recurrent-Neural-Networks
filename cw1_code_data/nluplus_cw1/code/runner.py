@@ -411,13 +411,16 @@ if __name__ == "__main__":
         code for training language model.
         change this to different values, or use it to get you started with your own testing class
         '''
-        train_size = 1000
+        train_size = 25000
         dev_size = 1000
         vocab_size = 2000
 
         hdim = int(sys.argv[3])
         lookback = int(sys.argv[4])
         lr = float(sys.argv[5])
+        batch_size = int(sys.argv[6])
+        epochs = int(sys.argv[7])
+        annealing_rate = int(sys.argv[8])
 
         # get the data set vocabulary
         vocab = pd.read_table(data_folder + "/vocab.wiki.txt", header=None, sep="\s+", index_col=0,
@@ -440,6 +443,12 @@ if __name__ == "__main__":
         S_dev = docs_to_indices(docs, word_to_num, 1, 1)
         X_dev, D_dev = seqs_to_lmXY(S_dev)
 
+
+        # Load the test set for reporting on the best parameters
+        docs = load_lm_dataset(data_folder + '/wiki-test.txt')
+        S_test = docs_to_indices(docs, word_to_num, 1, 1)
+        X_test, D_test = seqs_to_lmXY(S_test)
+
         X_train = X_train[:train_size]
         D_train = D_train[:train_size]
         X_dev = X_dev[:dev_size]
@@ -457,18 +466,18 @@ if __name__ == "__main__":
                            back_steps=lookback, learning_rate=lr, epochs=10)
         rnn_model.save_params 
 
-        mean_loss = r.compute_mean_loss(X_dev, D_dev)
-        print("Mean loss computed: %.03f", mean_loss)
+        mean_loss_test = r.compute_mean_loss(X_test, D_test)
+        print("Mean loss computed: %.03f", mean_loss_test)
         ##########################
         run_loss = losses
-        print("Run loss: %.03f" % np.exp(run_loss))
+        print("Run loss: %.03f" % np.exp(mean_loss_test))
 
     if mode == "train-np-rnn":
         '''
         starter code for parameter estimation.
         change this to different values, or use it to get you started with your own testing class
         '''
-        train_size = 2000
+        train_size = 50000
         dev_size = 1000
         vocab_size = 2000
 
@@ -518,7 +527,7 @@ if __name__ == "__main__":
         starter code for parameter estimation.
         change this to different values, or use it to get you started with your own testing class
         '''
-        train_size = 2000
+        train_size = 50000
         dev_size = 1000
         vocab_size = 2000
 
