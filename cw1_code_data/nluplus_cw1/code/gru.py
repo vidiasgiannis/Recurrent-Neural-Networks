@@ -52,6 +52,7 @@ class GRU(GRUAbstract):
 
         ##########################
         # --- your code here --- #
+        
         x_one_hot = make_onehot(x, self.vocab_size)
         r = sigmoid(np.dot(self.Vr, x_one_hot) + np.dot(self.Ur, s_previous))
         z = sigmoid(np.dot(self.Vz, x_one_hot)+ np.dot(self.Uz, s_previous))
@@ -59,6 +60,7 @@ class GRU(GRUAbstract):
         s = np.multiply(z , s_previous) + np.multiply((1-z),h)
         net_out = np.dot(self.W, s)
         y = softmax(net_out)
+    
         ##########################
 
         return y, s, h, z, r

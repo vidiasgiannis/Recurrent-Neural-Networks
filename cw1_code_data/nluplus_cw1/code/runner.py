@@ -119,6 +119,30 @@ class Runner(object):
         ##########################
 
         return mean_loss/count
+    
+    def compute_mean_loss_np(self, X, D):
+        '''
+        compute the mean loss between predictions for corpus X and desired outputs in corpus D.
+
+        X		corpus of sentences x1, x2, x3, [...], each a list of words as indices.
+        D		corpus of desired outputs d1, d2, d3 [...], each a list of words as indices.
+
+        return mean_loss		average loss over all words in D
+        '''
+
+       
+        ##########################
+        # --- your code here --- #
+        mean_loss = 0.
+        count = 0
+        for i in range(len(X)):
+            mean_loss =  mean_loss + (self.compute_loss_np(X[i], D[i]))
+            count = count + len(X[i])
+        # print(mean_loss)
+        # print(mean_loss/count)
+        ##########################
+
+        return mean_loss/count
 
     def train(self, X, D, X_dev, D_dev, epochs=10, learning_rate=0.5, anneal=5, back_steps=0, batch_size=100,
               min_change=0.0001, log=True):
@@ -399,6 +423,29 @@ class Runner(object):
         self.model.set_best_params()
 
         return best_loss, acc
+    
+    def evaluate_on_dev_sets(self, base_path):
+        dev_files = {
+            "full": "wiki-dev.txt",
+            "short": "wiki-dev_short.txt",
+            "medium": "wiki-dev_medium.txt",
+            "long": "wiki-dev_long.txt"
+        }
+        results = {}
+        
+        for key, file in dev_files.items():
+            docs = load_np_dataset(base_path + '/' + file)
+            S_dev = docs_to_indices(docs, word_to_num, 0, 0)
+            X_dev, D_dev = seqs_to_npXY(S_dev)
+
+            mean_loss = sum([self.compute_loss_np(X_dev[i], D_dev[i]) for i in range(len(X_dev))]) / len(D_dev)
+
+            accuracy = sum(self.compute_acc_np(X_dev[i], D_dev[i]) for i in range(len(X_dev))) / len(X_dev)
+            
+            results[key] = {"loss": mean_loss, "accuracy": accuracy}
+        
+        return results
+
 
 if __name__ == "__main__":
 
@@ -517,10 +564,12 @@ if __name__ == "__main__":
         rnn_model = RNN(vocab_size,hdim,2)
         r = Runner(rnn_model)
         losses, acc = r.train_np(X_train, D_train, X_dev, D_dev, 
-                           back_steps=lookback, learning_rate=lr, epochs=10)
+                           back_steps=lookback, learning_rate=lr, epochs=15)
         ##########################
+        dev_results = r.evaluate_on_dev_sets(data_folder)
+        for category, metrics in dev_results.items():
+            print(f"{category.capitalize()} Set - Loss: {metrics['loss']:.3f}, Accuracy: {metrics['accuracy']:.3f}")
 
-        print("Accuracy: %.03f" % acc)
 
     if mode == "train-np-gru":
         '''
@@ -559,6 +608,9 @@ if __name__ == "__main__":
         sents = load_np_dataset(data_folder + '/wiki-dev.txt')
         S_dev = docs_to_indices(sents, word_to_num, 0, 0)
         X_dev, D_dev = seqs_to_npXY(S_dev)
+        # sents = load_np_dataset(data_folder + 'wiki-dev_7_long.txt')
+        # S_dev = docs_to_indices(sents, word_to_num, 0, 0)
+        # X_dev, D_dev = seqs_to_npXY(S_dev)
 
         X_dev = X_dev[:dev_size]
         D_dev = D_dev[:dev_size]
@@ -567,6 +619,12 @@ if __name__ == "__main__":
         rnn_model = GRU(vocab_size,hdim,2)
         r = Runner(rnn_model)
         losses, acc = r.train_np(X_train, D_train, X_dev, D_dev, 
-                           back_steps=lookback, learning_rate=lr, epochs=10)
+                           back_steps=lookback, learning_rate=lr, epochs=15)
+        mean_loss = r.compute_mean_loss_np(X_dev, D_dev)
+        print("Mean loss computed: %.03f", mean_loss)
         ##########################
-        print("Accuracy: %.03f" % acc)  
+        dev_results = r.evaluate_on_dev_sets(data_folder)
+        for category, metrics in dev_results.items():
+            print(f"{category.capitalize()} Set - Loss: {metrics['loss']:.3f}, Accuracy: {metrics['accuracy']:.3f}")
+
+         
