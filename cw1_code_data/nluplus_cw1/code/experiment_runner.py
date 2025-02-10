@@ -9,8 +9,8 @@ lookbacks = [0, 2, 5, 7, 10]
 models = ["train-np-gru", "train-np-rnn"]  # Models to test
 
 
-data_dir = "/Users/radhikasatish/nlu_cw1/NLU-Coursework-1-Recurrent-Neural-Networks/cw1_code_data/nluplus_cw1/data"  # Replace with your actual data directory
-runner_path = "/Users/radhikasatish/nlu_cw1/NLU-Coursework-1-Recurrent-Neural-Networks/cw1_code_data/nluplus_cw1/code/runner.py"
+data_dir = "/home/gvidias/nlu_cw1/cw1_code_data/nluplus_cw1/data"  # Replace with your actual data directory
+runner_path = "/home/gvidias/nlu_cw1/cw1_code_data/nluplus_cw1/code/runner.py"
 
 
 # Create all combinations of parameters
